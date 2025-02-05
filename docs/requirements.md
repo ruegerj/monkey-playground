@@ -5,6 +5,13 @@
 - [Motivation](#motivation)
 - [Tech-Stack](#tech-stack)
 - [Requirements](#requirements)
+  - [1 - Writing & Running Monkey Code](#story-1-writing--running-monkey-code-must)
+  - [2 - Sign-up/Sign-in](#story-2-sign-upsign-in-must)
+  - [3 - Saving Code Snippets](#story-3-saving-code-snippets-must)
+  - [4 - Overview & Display saved Code Snippets](#story-4-overview--display-saved-code-snippets-must)
+  - [5 - Share Code Snippets](#story-5-share-code-snippets-should)
+  - [6 - View Bytecode of executed Code](#story-6-view-bytecode-of-executed-code-could)
+  - [7 - View AST of executed Code](#story-7-view-ast-of-executed-code-could)
 
 ## Motivation
 
