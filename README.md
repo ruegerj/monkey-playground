@@ -1,1 +1,7 @@
-# monkey-playground
+# Monkey Playground
+
+Web-Sandbox for writing, compiling and executing [Monkey](https://monkeylang.org/) code from your browser.
+
+## Contents
+
+- [Requirements & Specification](/docs/requirements.md)
