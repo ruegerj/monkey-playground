@@ -11,3 +11,6 @@
 {#if !data.user}
 	<GithubAuthBtn />
 {/if}
+{#if data.user}
+	<img src={data.user.avatarUrl} alt="avatar" width="100" height="100" />
+{/if}

@@ -12,7 +12,11 @@ export async function getUserByGithubId(githubId: number): Promise<User | undefi
 	});
 }
 
-export async function createUser(githubId: number, username: string): Promise<User> {
+export async function createUser(
+	githubId: number,
+	username: string,
+	avatarUrl: string
+): Promise<User> {
 	if (!githubId || !username) {
 		throw new Error('githubId and username are required');
 	}
@@ -20,7 +24,8 @@ export async function createUser(githubId: number, username: string): Promise<Us
 	const newUser: NewUser = {
 		id: uuidV4(),
 		githubId: githubId,
-		username: username
+		username: username,
+		avatarUrl: avatarUrl
 	};
 
 	const [createdUser] = await db.insert(user).values(newUser).returning();

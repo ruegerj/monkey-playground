@@ -1,5 +1,6 @@
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth';
 import { github } from '$lib/server/oauth';
+import type { GitHubUser } from '$lib/server/oauth/github-user';
 import { createUser, getUserByGithubId, type User } from '$lib/server/router/user';
 import type { RequestEvent } from '@sveltejs/kit';
 import type { OAuth2Tokens } from 'arctic';
@@ -35,18 +36,16 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			Authorization: `Bearer ${tokens.accessToken()}`
 		}
 	});
-	const githubUser = await githubUserResponse.json();
-	const githubUserId = githubUser.id;
-	const githubUsername = githubUser.login;
+	const githubUser: GitHubUser = await githubUserResponse.json();
 
-	const existingUser = await getUserByGithubId(githubUserId);
+	const existingUser = await getUserByGithubId(githubUser.id);
 	if (existingUser) {
 		console.log(`Found existing user: ${existingUser.id}, proceeding to authenticate...`);
 		return authenticate(event, existingUser);
 	}
 
-	const createdUser = await createUser(githubUserId, githubUsername);
-	console.log(`Created user with name: ${githubUsername}`);
+	const createdUser = await createUser(githubUser.id, githubUser.login, githubUser.avatar_url);
+	console.log(`Created user with name: ${githubUser.login}`);
 	return authenticate(event, createdUser);
 }
 
