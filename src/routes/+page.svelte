@@ -1,2 +1,21 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { enhance } from '$app/forms';
+	import GithubAuthBtn from '../components/github-auth-btn.svelte';
+
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+</script>
+
+<h1>Welcome {data.user ? data.user.username : 'anon'}</h1>
+
+{#if !data.user}
+	<GithubAuthBtn />
+{/if}
+{#if data.user}
+	<img src={data.user.avatarUrl} alt="avatar" width="100" height="100" />
+
+	<form method="POST" use:enhance>
+		<button>Sign out</button>
+	</form>
+{/if}
