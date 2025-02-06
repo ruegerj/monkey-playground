@@ -1,8 +1,13 @@
 <script lang="ts">
 	import GithubAuthBtn from '../components/github-auth-btn.svelte';
+
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<h1>Welcome {data.user ? data.user.username : 'anon'}</h1>
 
-<GithubAuthBtn />
+{#if !data.user}
+	<GithubAuthBtn />
+{/if}
