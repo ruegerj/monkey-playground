@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import GithubAuthBtn from '../components/github-auth-btn.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	import type { PageProps } from './$types';
 
@@ -16,6 +17,6 @@
 	<img src={data.user.avatarUrl} alt="avatar" width="100" height="100" />
 
 	<form method="POST" use:enhance>
-		<button>Sign out</button>
+		<Button variant="outline">Sign out</Button>
 	</form>
 {/if}
