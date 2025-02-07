@@ -7,6 +7,10 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ vars.DATABASE_URL }}
+      GITHUB_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
+      GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
 
@@ -33,13 +37,6 @@ jobs:
 
       - name: Lint
         run: bun run lint
-
-      - name: Create .env
-        run: |
-          touch .env
-          echo "${{ vars.DATABASE_URL }}" >> .env
-          echo "${{ vars.GH_CLIENT_ID }}" >> .env
-          echo "${{ secrets.GH_CLIENT_SECRET }}" >> .env
 
       - name: Check Svelte
         run: bun run check
