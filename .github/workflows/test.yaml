@@ -32,6 +32,11 @@ jobs:
         if: steps.cache-node_modules.outputs.cache-hit != true
         run: bun install --frozen-lockfile
 
+      - name: Create .env
+        run: |
+          touch .env
+          echo "${{ secrets.CI_ENV }}" >> .env
+
       - name: Test (Unit)
         run: bun run test:unit
 
@@ -63,6 +68,13 @@ jobs:
 
       - name: Install Playwright Browsers
         run: bunx playwright install --with-deps
+
+      - name: Create .env
+        run: |
+          touch .env
+          echo "${{ vars.DATABASE_URL }}" >> .env
+          echo "${{ vars.GH_CLIENT_ID }}" >> .env
+          echo "${{ secrets.GH_CLIENT_SECRET }}" >> .env
 
       - name: Run Playwright Tests
         run: bunx playwright test

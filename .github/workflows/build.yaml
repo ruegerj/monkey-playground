@@ -34,9 +34,12 @@ jobs:
       - name: Lint
         run: bun run lint
 
-        # in order to ensure "Check Svelte" doesn't get flaky
-      - name: Create dummy .env
-        run: cp .env.example .env
+      - name: Create .env
+        run: |
+          touch .env
+          echo "${{ vars.DATABASE_URL }}" >> .env
+          echo "${{ vars.GH_CLIENT_ID }}" >> .env
+          echo "${{ secrets.GH_CLIENT_SECRET }}" >> .env
 
       - name: Check Svelte
         run: bun run check
