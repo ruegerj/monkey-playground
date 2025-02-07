@@ -4,9 +4,12 @@
 	import { Button } from '$lib/components/ui/button';
 
 	import type { PageProps } from './$types';
+	import ThemeToggleBtn from '../components/theme-toggle-btn.svelte';
 
 	let { data }: PageProps = $props();
 </script>
+
+<ThemeToggleBtn />
 
 <h1>Welcome {data.user ? data.user.username : 'anon'}</h1>
 
