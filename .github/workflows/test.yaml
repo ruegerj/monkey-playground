@@ -1,9 +1,7 @@
 name: Test
 on:
-  workflow_run:
-    workflows: [Build]
-    types:
-      - completed
+  workflow_dispatch:
+  workflow_call:
 
 jobs:
   test:
@@ -43,18 +41,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node_version: lts/*
+          bun-version: latest
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Cache node_modules
+        id: cache-node_modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: bunx playwright install --with-deps
 
       - name: Run Playwright Tests
-        run: npx playwright test
+        run: bunx playwright test
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
