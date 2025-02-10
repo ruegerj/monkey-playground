@@ -6,7 +6,7 @@
 	import type { PageProps } from './$types';
 	import ThemeToggleBtn from '../components/theme-toggle-btn.svelte';
 
-	let { data }: PageProps = $props();
+	let { data, form }: PageProps = $props();
 </script>
 
 <ThemeToggleBtn />
@@ -20,6 +20,12 @@
 	<img src={data.user.avatarUrl} alt="avatar" width="100" height="100" />
 
 	<form method="POST" use:enhance>
-		<Button variant="outline">Sign out</Button>
+		<Button variant="outline" formaction="?/signout">Sign out</Button>
 	</form>
 {/if}
+
+<form method="POST" use:enhance>
+	<textarea name="code"> </textarea>
+
+	<Button variant="outline" formaction="?/compile">Compile</Button>
+</form>
