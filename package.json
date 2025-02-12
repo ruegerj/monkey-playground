@@ -39,6 +39,7 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
 		"@types/better-sqlite3": "^7.6.12",
+		"@types/prismjs": "^1.26.5",
 		"autoprefixer": "^10.4.20",
 		"bits-ui": "^0.22.0",
 		"clsx": "^2.1.1",
@@ -62,6 +63,7 @@
 		"vitest": "^3.0.0"
 	},
 	"dependencies": {
+		"@novacbn/svelte-codejar": "^0.1.2",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
 		"arctic": "^3.2.3",
@@ -69,6 +71,7 @@
 		"drizzle-orm": "^0.38.4",
 		"koffi": "^2.10.1",
 		"mode-watcher": "^0.5.1",
+		"prismjs": "^1.29.0",
 		"uuid": "^11.0.5"
 	}
 }

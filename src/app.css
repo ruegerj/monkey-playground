@@ -1,3 +1,5 @@
+@import url('../node_modules/prismjs/themes/prism-twilight.min.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
