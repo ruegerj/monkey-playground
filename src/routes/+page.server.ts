@@ -9,7 +9,7 @@ export const load: PageServerLoad = (event) => {
 	};
 };
 
-export const actions: Actions = {
+export const actions = {
 	signout: async (event) => {
 		if (event.locals.session === null) {
 			return fail(401);
@@ -26,6 +26,6 @@ export const actions: Actions = {
 		const result = await compileAndRun(code ? code.toString() : '');
 		console.log('Compiled:\n', result);
 
-		return { success: true };
+		return { success: true, result: result };
 	}
-};
+} satisfies Actions;
