@@ -1,11 +1,16 @@
-import koffi from 'koffi';
 import { join } from 'node:path';
+import koffi from 'koffi';
+import { building } from '$app/environment';
 
 const VALID_PLATFORMS: NodeJS.Platform[] = ['win32', 'darwin', 'linux'];
 const VALID_ARCHITECTURES: NodeJS.Architecture[] = ['arm64', 'x64'];
 
-const compilerLibPath = resolveCompilerBinaryPathOrThrow();
-const compilerLib = koffi.load(compilerLibPath);
+let compilerLib: koffi.IKoffiLib;
+
+if (!building) {
+	const compilerLibPath = resolveCompilerBinaryPathOrThrow();
+	compilerLib = koffi.load(compilerLibPath);
+}
 
 export function compileAndRun(code: string): Promise<string> {
 	return new Promise((resolve) => {
