@@ -47,12 +47,17 @@
 <form method="POST" action="?/compile" bind:this={compileCodeForm} use:enhance={handleCompileCode}>
 	{#if CodeJar}
 		<CodeJar bind:value syntax="monkey-lang" {highlight} />
+		{#if !form?.success && form?.error}
+			<p class="text-red-400">{form.error}</p>
+		{/if}
 	{:else}
 		<!-- in case JS is not enabled -->
 		<pre><code>{value}</code></pre>
 	{/if}
 
-	<Button variant="outline" on:click={() => compileCodeForm?.requestSubmit()}>Compile</Button>
+	<Button variant="outline" disabled={!value} on:click={() => compileCodeForm?.requestSubmit()}
+		>Compile</Button
+	>
 </form>
 
 {#if form?.success}
