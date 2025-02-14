@@ -12,7 +12,7 @@ export const load: PageServerLoad = (event) => {
 export const actions = {
 	compile: async ({ request }) => {
 		const data = await request.formData();
-		const code = data.get('code')?.toString();
+		const code = data.get('code')?.toString().trim();
 
 		if (!code?.length) {
 			return fail(422, { error: 'Code cannot be empty.' });

@@ -10,6 +10,7 @@
 
 	let { form }: PageProps = $props();
 	let code = $state('');
+	let codeValid = $derived(code.trim().length > 0);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let CodeJar = $state() as any; // nasty workaround due to dynamic import
 	let compileCodeForm = $state<HTMLFormElement>();
@@ -20,6 +21,9 @@
 		Prism.highlight(code, Prism.languages[syntax], syntax);
 
 	const handleCompileCode: SubmitFunction = ({ formData }) => {
+		if (code.trim().length <= 0) {
+			return;
+		}
 		formData.append('code', code);
 		return ({ result }) => applyAction(result);
 	};
@@ -32,7 +36,11 @@
 
 <div class="py- flex h-full flex-col overflow-hidden px-4">
 	<div class="ml-auto py-2">
-		<Button variant="default" disabled={!code} on:click={() => compileCodeForm?.requestSubmit()}>
+		<Button
+			variant="default"
+			disabled={!codeValid}
+			on:click={() => compileCodeForm?.requestSubmit()}
+		>
 			<IconPlay class="mr-1" />
 			Run
 		</Button>
