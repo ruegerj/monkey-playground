@@ -14,6 +14,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Monkey Playground</title>
+</svelte:head>
+
 <nav class="border-b">
 	<div class="flex h-16 items-center px-4">
 		<h2 class="font-semi-bold text-2xl tracking-tight">Monkey Playground</h2>
