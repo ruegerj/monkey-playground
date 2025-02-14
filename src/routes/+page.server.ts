@@ -1,6 +1,5 @@
-import { fail, redirect, type Actions } from '@sveltejs/kit';
+import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/auth';
 import { compileAndRun } from '$lib/server/compiler';
 import { MAX_ALLOWED_CHARS_CODE } from '$env/static/private';
 
@@ -11,14 +10,6 @@ export const load: PageServerLoad = (event) => {
 };
 
 export const actions = {
-	signout: async (event) => {
-		if (event.locals.session === null) {
-			return fail(401);
-		}
-		await invalidateSession(event.locals.session.id);
-		deleteSessionTokenCookie(event);
-		return redirect(302, '/');
-	},
 	compile: async ({ request }) => {
 		const data = await request.formData();
 		const code = data.get('code')?.toString();

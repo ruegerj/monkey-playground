@@ -5,11 +5,9 @@
 	import type { PageProps } from './$types';
 	import { applyAction, enhance } from '$app/forms';
 	import MonkeyGrammar from '$lib/monkey/grammar';
-	import GithubAuthBtn from '$lib/components/ui/github-auth-btn.svelte';
-	import ThemeToggleBtn from '$lib/components/ui/theme-toggle-btn.svelte';
 	import { Button } from '$lib/components/ui/button';
 
-	let { data, form }: PageProps = $props();
+	let { form }: PageProps = $props();
 	let value = $state('');
 	let CodeJar = $state();
 	let compileCodeForm = $state<HTMLFormElement>();
@@ -30,20 +28,6 @@
 	};
 </script>
 
-<ThemeToggleBtn />
-
-<h1>Welcome {data.user ? data.user.username : 'anon'}</h1>
-
-{#if data.user}
-	<img src={data.user.avatarUrl} alt="avatar" width="100" height="100" />
-
-	<form method="POST" use:enhance>
-		<Button variant="outline" formaction="?/signout">Sign out</Button>
-	</form>
-{:else}
-	<GithubAuthBtn />
-{/if}
-
 <form method="POST" action="?/compile" bind:this={compileCodeForm} use:enhance={handleCompileCode}>
 	{#if CodeJar}
 		<CodeJar bind:value syntax="monkey-lang" {highlight} />
@@ -55,7 +39,7 @@
 		<pre><code>{value}</code></pre>
 	{/if}
 
-	<Button variant="outline" disabled={!value} on:click={() => compileCodeForm?.requestSubmit()}
+	<Button variant="default" disabled={!value} on:click={() => compileCodeForm?.requestSubmit()}
 		>Compile</Button
 	>
 </form>
