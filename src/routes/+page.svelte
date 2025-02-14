@@ -9,7 +9,8 @@
 
 	let { form }: PageProps = $props();
 	let value = $state('');
-	let CodeJar = $state();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let CodeJar = $state() as any; // nasty workaround due to dynamic import
 	let compileCodeForm = $state<HTMLFormElement>();
 
 	Prism.languages['monkey-lang'] = MonkeyGrammar;

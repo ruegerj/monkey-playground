@@ -1,8 +1,8 @@
 <script lang="ts">
 	import IconLogOut from 'virtual:icons/lucide/logOut';
-	import Button from './button/button.svelte';
-	import * as DropdownMenu from './dropdown-menu';
-	import * as Avatar from './avatar';
+	import { Button } from '$lib/components/ui/button';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import * as Avatar from '$lib/components/ui/avatar';
 	import type { SessionValidationResult } from '$lib/server/auth';
 
 	interface Props {

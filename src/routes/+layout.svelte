@@ -2,9 +2,7 @@
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import UserMenu from '$lib/components/ui/user-menu.svelte';
-	import ThemeToggleBtn from '$lib/components/ui/theme-toggle-btn.svelte';
-	import GithubAuthBtn from '$lib/components/ui/github-auth-btn.svelte';
+	import { GithubAuthBtn, ThemeToggleBtn, UserMenu } from '$lib/components/custom';
 
 	let { data, children } = $props();
 	let logoutForm = $state<HTMLFormElement>();
