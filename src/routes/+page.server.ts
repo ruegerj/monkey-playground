@@ -10,7 +10,11 @@ export const load: PageServerLoad = (event) => {
 };
 
 export const actions = {
-	compile: async ({ request }) => {
+	compile: async ({ request, locals }) => {
+		if (!locals.session || !locals.user) {
+			return fail(401);
+		}
+
 		const data = await request.formData();
 		const code = data.get('code')?.toString().trim();
 

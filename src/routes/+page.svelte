@@ -8,10 +8,13 @@
 	import MonkeyGrammar from '$lib/monkey/grammar';
 	import { Button } from '$lib/components/ui/button';
 	import * as Tabs from '$lib/components/ui/tabs';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 
-	let { form }: PageProps = $props();
+	let { form, data }: PageProps = $props();
 	let code = $state('');
-	let codeValid = $derived(code.trim().length > 0);
+	let isCodeNotEmpty = $derived(code.trim().length > 0);
+	let canCodeBeRan = $derived(isCodeNotEmpty && data.user != null);
+
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let CodeJar = $state() as any; // nasty workaround due to dynamic import
 	let compileCodeForm = $state<HTMLFormElement>();
@@ -37,14 +40,27 @@
 
 <div class="flex h-full flex-col overflow-hidden px-4 pb-4">
 	<div class="ml-auto py-2">
-		<Button
-			variant="default"
-			disabled={!codeValid}
-			on:click={() => compileCodeForm?.requestSubmit()}
-		>
-			<IconPlay class="mr-1" />
-			Run
-		</Button>
+		<Tooltip.Root>
+			<Tooltip.Trigger>
+				<Button
+					variant="default"
+					disabled={!canCodeBeRan}
+					on:click={() => compileCodeForm?.requestSubmit()}
+				>
+					<IconPlay class="mr-1" />
+					Run
+				</Button>
+			</Tooltip.Trigger>
+			{#if !canCodeBeRan}
+				<Tooltip.Content side="bottom">
+					{#if !data.user}
+						<p>Sign in to run code</p>
+					{:else if !isCodeNotEmpty}
+						<p>Write some code in order to run it</p>
+					{/if}
+				</Tooltip.Content>
+			{/if}
+		</Tooltip.Root>
 	</div>
 
 	<div
