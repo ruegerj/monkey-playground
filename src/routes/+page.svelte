@@ -7,6 +7,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import MonkeyGrammar from '$lib/monkey/grammar';
 	import { Button } from '$lib/components/ui/button';
+	import * as Tabs from '$lib/components/ui/tabs';
 
 	let { form }: PageProps = $props();
 	let code = $state('');
@@ -34,7 +35,7 @@
 	});
 </script>
 
-<div class="py- flex h-full flex-col overflow-hidden px-4">
+<div class="flex h-full flex-col overflow-hidden px-4 pb-4">
 	<div class="ml-auto py-2">
 		<Button
 			variant="default"
@@ -47,17 +48,21 @@
 	</div>
 
 	<div
-		class="flex flex-grow flex-col space-y-3 overflow-hidden md:flex-row md:space-x-3 md:space-y-0"
+		class="flex flex-grow flex-col space-y-3 overflow-hidden rounded-sm border md:flex-row md:space-y-0"
 	>
-		<div class="h-1/2 w-full overflow-scroll border md:h-full md:w-1/2">
+		<div
+			class="flex h-1/2 w-full cursor-text flex-col overflow-scroll border-r p-2 md:h-full md:w-1/2"
+		>
+			<h3 class="tracking-light space-y-1.5 p-2 pb-6 text-lg font-semibold leading-none">Code</h3>
 			<form
+				class="flex-auto px-2"
 				method="POST"
 				action="?/compile"
 				bind:this={compileCodeForm}
 				use:enhance={handleCompileCode}
 			>
 				{#if CodeJar}
-					<CodeJar bind:value={code} syntax="monkey-lang" {highlight} />
+					<CodeJar class="h-full" bind:value={code} syntax="monkey-lang" {highlight} />
 					{#if !form?.success && form?.error}
 						<p class="text-red-400">{form.error}</p>
 					{/if}
@@ -67,12 +72,22 @@
 				{/if}
 			</form>
 		</div>
-		<div class="h-1/2 w-full overflow-scroll border md:h-full md:w-1/2">
-			{#if form?.success}
-				<div>
-					<pre><code>{form.result}</code></pre>
-				</div>
-			{/if}
+		<div class="h-1/2 w-full overflow-scroll border-l p-2 md:h-full md:w-1/2">
+			<Tabs.Root value="output">
+				<Tabs.List>
+					<Tabs.Trigger value="output">Output</Tabs.Trigger>
+				</Tabs.List>
+				<Tabs.Content value="output">
+					<div class="px-2">
+						{#if form?.success}
+							<pre class="whitespace-pre-wrap">{form?.result}</pre>
+						{:else}
+							<pre
+								class="whitespace-pre-wrap italic text-muted-foreground">Run code to see its output here...</pre>
+						{/if}
+					</div>
+				</Tabs.Content>
+			</Tabs.Root>
 		</div>
 	</div>
 </div>
