@@ -3,6 +3,7 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import Prism from 'prismjs';
 	import IconPlay from 'virtual:icons/lucide/play';
+	import IconLoader from 'virtual:icons/lucide/loader-circle';
 	import type { PageProps } from './$types';
 	import { applyAction, enhance } from '$app/forms';
 	import MonkeyGrammar from '$lib/monkey/grammar';
@@ -12,8 +13,12 @@
 
 	let { form, data }: PageProps = $props();
 	let code = $state('');
+	let isLoading = $state(false);
 	let isCodeNotEmpty = $derived(code.trim().length > 0);
-	let canCodeBeRan = $derived(isCodeNotEmpty && data.user != null);
+	let canCodeBeRan = $derived(isCodeNotEmpty && data.user != null && !isLoading);
+	let runBtnTooltip = $derived(
+		!data.user ? 'Sign in to run code' : !isCodeNotEmpty ? 'Write some code in order to run it' : ''
+	);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let CodeJar = $state() as any; // nasty workaround due to dynamic import
@@ -29,7 +34,11 @@
 			return;
 		}
 		formData.append('code', code);
-		return ({ result }) => applyAction(result);
+		isLoading = true;
+		return async ({ result }) => {
+			await applyAction(result);
+			isLoading = false;
+		};
 	};
 
 	onMount(async () => {
@@ -47,17 +56,17 @@
 					disabled={!canCodeBeRan}
 					on:click={() => compileCodeForm?.requestSubmit()}
 				>
-					<IconPlay class="mr-1" />
+					{#if isLoading}
+						<IconLoader class="spin mr-1" />
+					{:else}
+						<IconPlay class="mr-1" />
+					{/if}
 					Run
 				</Button>
 			</Tooltip.Trigger>
 			{#if !canCodeBeRan}
 				<Tooltip.Content side="bottom">
-					{#if !data.user}
-						<p>Sign in to run code</p>
-					{:else if !isCodeNotEmpty}
-						<p>Write some code in order to run it</p>
-					{/if}
+					<p>{runBtnTooltip}</p>
 				</Tooltip.Content>
 			{/if}
 		</Tooltip.Root>
