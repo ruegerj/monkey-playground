@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 </script>
 
-<Button href="/login/github" variant="outline">
+<Button data-test="gh-sign-in-btn" href="/login/github" variant="outline">
 	Sign in
 	<IconGithub class="ml-2" />
 </Button>
