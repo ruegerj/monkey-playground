@@ -50,12 +50,10 @@
 	<div
 		class="flex flex-grow flex-col space-y-3 overflow-hidden rounded-sm border md:flex-row md:space-y-0"
 	>
-		<div
-			class="flex h-1/2 w-full cursor-text flex-col overflow-scroll border-r p-2 md:h-full md:w-1/2"
-		>
+		<div class="flex h-1/2 w-full flex-col overflow-scroll border-r p-2 md:h-full md:w-1/2">
 			<h3 class="tracking-light space-y-1.5 p-2 pb-6 text-lg font-semibold leading-none">Code</h3>
 			<form
-				class="flex-auto px-2"
+				class="flex-auto cursor-text px-2"
 				method="POST"
 				action="?/compile"
 				bind:this={compileCodeForm}
@@ -63,9 +61,6 @@
 			>
 				{#if CodeJar}
 					<CodeJar class="h-full" bind:value={code} syntax="monkey-lang" {highlight} />
-					{#if !form?.success && form?.error}
-						<p class="text-red-400">{form.error}</p>
-					{/if}
 				{:else}
 					<!-- in case JS is not enabled -->
 					<pre><code>{code}</code></pre>
@@ -81,6 +76,8 @@
 					<div class="px-2">
 						{#if form?.success}
 							<pre class="whitespace-pre-wrap">{form?.result}</pre>
+						{:else if form?.error}
+							<p class="text-red-400">{form.error}</p>
 						{:else}
 							<pre
 								class="whitespace-pre-wrap italic text-muted-foreground">Run code to see its output here...</pre>
