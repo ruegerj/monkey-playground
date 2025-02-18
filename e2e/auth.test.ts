@@ -1,14 +1,16 @@
-import { expect, Page, test } from '@playwright/test';
-import { findElement } from './utils/locator';
+import { expect, test } from '@playwright/test';
+import { findElement } from './common/locator';
+import {
+	GITHUB_SIGN_IN_BTN,
+	USER_AVATAR,
+	USER_AVATAR_IMG,
+	USER_MENU,
+	USER_MENU_SIGN_OUT_BTN,
+	USER_MENU_USERNAME
+} from './common/element-ids';
+import { signIn } from './common/auth';
 
-const GITHUB_SIGN_IN_BTN = 'gh-sign-in-btn';
-const USER_AVATAR = 'user-avatar';
-const USER_AVATAR_IMG = 'user-avatar-img';
-const USER_MENU = 'user-menu';
-const USER_MENU_USERNAME = 'user-menu-username';
-const USER_MENU_SIGN_OUT_BTN = 'user-menu-sign-out-btn';
-
-test('index page has github sign-in btn', async ({ page }) => {
+test('index page shows github sign-in btn', async ({ page }) => {
 	await page.goto('/');
 
 	await expect(findElement(page, GITHUB_SIGN_IN_BTN)).toBeVisible();
@@ -50,7 +52,3 @@ test('user can sign out', async ({ page }) => {
 
 	await expect(findElement(page, GITHUB_SIGN_IN_BTN)).toBeVisible();
 });
-
-function signIn(page: Page): Promise<void> {
-	return findElement(page, GITHUB_SIGN_IN_BTN).click();
-}

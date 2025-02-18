@@ -54,6 +54,7 @@
 				<Button
 					variant="default"
 					disabled={!canCodeBeRan}
+					data-test="code-run-btn"
 					on:click={() => compileCodeForm?.requestSubmit()}
 				>
 					{#if isLoading}
@@ -81,6 +82,7 @@
 				class="flex-auto cursor-text px-2"
 				method="POST"
 				action="?/compile"
+				data-test="code-editor-form"
 				bind:this={compileCodeForm}
 				use:enhance={handleCompileCode}
 			>
@@ -98,7 +100,7 @@
 					<Tabs.Trigger value="output">Output</Tabs.Trigger>
 				</Tabs.List>
 				<Tabs.Content value="output">
-					<div class="px-2">
+					<div class="px-2" data-test="code-output">
 						{#if form?.success}
 							<pre class="whitespace-pre-wrap">{form?.result}</pre>
 						{:else if form?.error}
