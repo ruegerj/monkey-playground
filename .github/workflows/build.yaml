@@ -8,9 +8,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
+      CI_USER_ID: ${{ vars.CI_USER_ID }}
+      CI_USERNAME: ${{ vars.CI_USERNAME }}
+      CI_AVATAR_URL: ${{ vars.CI_AVATAR_URL }}
       DATABASE_URL: ${{ vars.DATABASE_URL }}
       GITHUB_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
       GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+      MAX_ALLOWED_CHARS_CODE: ${{ vars.MAX_ALLOWED_CHARS_CODE }}
     steps:
       - uses: actions/checkout@v4
 
