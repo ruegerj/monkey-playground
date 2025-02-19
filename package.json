@@ -21,8 +21,10 @@
 		"db:studio": "drizzle-kit studio"
 	},
 	"trustedDependencies": [
+		"@playwright/test",
 		"better-sqlite3",
-		"@playwright/test"
+		"esbuild",
+		"koffi"
 	],
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -37,19 +39,22 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
 		"@types/better-sqlite3": "^7.6.12",
+		"@types/prismjs": "^1.26.5",
 		"autoprefixer": "^10.4.20",
-		"bits-ui": "^0.22.0",
+		"bits-ui": "0.22.0",
 		"clsx": "^2.1.1",
 		"drizzle-kit": "^0.30.2",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
 		"globals": "^15.14.0",
+		"lucide-svelte": "^0.475.0",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.10",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"svelte-sonner": "^0.3.28",
 		"tailwind-merge": "^3.0.1",
 		"tailwind-variants": "^0.3.1",
 		"tailwindcss": "^3.4.17",
@@ -60,12 +65,15 @@
 		"vitest": "^3.0.0"
 	},
 	"dependencies": {
+		"@novacbn/svelte-codejar": "^0.1.2",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
 		"arctic": "^3.2.3",
 		"better-sqlite3": "^11.8.0",
 		"drizzle-orm": "^0.38.4",
+		"koffi": "^2.10.1",
 		"mode-watcher": "^0.5.1",
+		"prismjs": "^1.29.0",
 		"uuid": "^11.0.5"
 	}
 }

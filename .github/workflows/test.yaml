@@ -4,13 +4,17 @@ on:
   workflow_call:
 
 jobs:
-  test:
+  test-unit:
     name: Test (Unit)
     runs-on: ubuntu-latest
     env:
+      CI_USER_ID: ${{ vars.CI_USER_ID }}
+      CI_USERNAME: ${{ vars.CI_USERNAME }}
+      CI_AVATAR_URL: ${{ vars.CI_AVATAR_URL }}
       DATABASE_URL: ${{ vars.DATABASE_URL }}
       GITHUB_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
       GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+      MAX_ALLOWED_CHARS_CODE: ${{ vars.MAX_ALLOWED_CHARS_CODE }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -44,9 +48,14 @@ jobs:
     timeout-minutes: 20
     runs-on: ubuntu-latest
     env:
+      NODE_ENV: ci
+      CI_USER_ID: ${{ vars.CI_USER_ID }}
+      CI_USERNAME: ${{ vars.CI_USERNAME }}
+      CI_AVATAR_URL: ${{ vars.CI_AVATAR_URL }}
       DATABASE_URL: ${{ vars.DATABASE_URL }}
       GITHUB_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
       GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+      MAX_ALLOWED_CHARS_CODE: ${{ vars.MAX_ALLOWED_CHARS_CODE }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -71,6 +80,9 @@ jobs:
 
       - name: Install Playwright Browsers
         run: bunx playwright install --with-deps
+
+      - name: Setup local SQLight db
+        run: bun run db:push -- --force
 
       - name: Run Playwright Tests
         run: bunx playwright test

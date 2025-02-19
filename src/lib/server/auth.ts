@@ -4,6 +4,8 @@ import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
+import { isRunningIn } from './env';
+import { CI_AVATAR_URL, CI_USER_ID, CI_USERNAME } from '$env/static/private';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
@@ -16,7 +18,7 @@ export function generateSessionToken() {
 }
 
 export async function createSession(token: string, userId: string) {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+	const sessionId = createSessionId(token);
 	const session: table.Session = {
 		id: sessionId,
 		userId,
@@ -27,7 +29,11 @@ export async function createSession(token: string, userId: string) {
 }
 
 export async function validateSessionToken(token: string) {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+	if (isRunningIn('ci')) {
+		return impersonateTestUser();
+	}
+
+	const sessionId = createSessionId(token);
 	const [result] = await db
 		.select({
 			user: { id: table.user.id, username: table.user.username, avatarUrl: table.user.avatarUrl },
@@ -77,4 +83,25 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
 	event.cookies.delete(sessionCookieName, {
 		path: '/'
 	});
+}
+
+function createSessionId(token: string): string {
+	const encodedToken = new TextEncoder().encode(token);
+	const fixedSizeToken = sha256(encodedToken);
+	return encodeHexLowerCase(fixedSizeToken);
+}
+
+function impersonateTestUser() {
+	const testUser = {
+		id: CI_USER_ID,
+		username: CI_USERNAME,
+		avatarUrl: CI_AVATAR_URL
+	};
+	const testSession = {
+		id: createSessionId('5678'),
+		userId: CI_USER_ID,
+		expiresAt: new Date(Date.now() + DAY_IN_MS)
+	};
+
+	return { session: testSession, user: testUser };
 }
