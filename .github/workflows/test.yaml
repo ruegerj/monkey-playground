@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  test:
+  test-unit:
     name: Test (Unit)
     runs-on: ubuntu-latest
     env:

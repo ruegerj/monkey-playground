@@ -4,11 +4,17 @@ import { building } from '$app/environment';
 
 const VALID_PLATFORMS: NodeJS.Platform[] = ['win32', 'darwin', 'linux'];
 const VALID_ARCHITECTURES: NodeJS.Architecture[] = ['arm64', 'x64'];
+const PLATFORM_EXTENSION_LOOKUP: Partial<Record<NodeJS.Platform, string>> = {
+	darwin: 'dylib',
+	linux: 'so',
+	win32: 'dll'
+};
 
 let compilerLib: koffi.IKoffiLib;
 
 if (!building) {
 	const compilerLibPath = resolveCompilerBinaryPathOrThrow();
+	console.log('binary path', compilerLibPath, process.arch, process.platform);
 	compilerLib = koffi.load(compilerLibPath);
 }
 
@@ -37,13 +43,18 @@ export function resolveCompilerBinaryPathOrThrow(): string {
 		);
 	}
 
-	if (platform === 'win32' && arch === 'arm64') {
+	if (arch === 'arm64' && platform != 'darwin') {
 		throw new Error(
-			'Unsupported platform architecture combination: windows arm64, is currently not yet supported'
+			'Unsupported platform architecture combination: only darwin is currently supported for arm64'
 		);
 	}
 
-	const pathFragments = [process.cwd(), 'bin', platform, `monkeyc_${arch}.so`];
+	const pathFragments = [
+		process.cwd(),
+		'bin',
+		platform,
+		`monkeyc_${arch}.${PLATFORM_EXTENSION_LOOKUP[platform]}`
+	];
 
 	return join(...pathFragments);
 }
