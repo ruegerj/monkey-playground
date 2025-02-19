@@ -8,6 +8,6 @@ export default defineConfig({
 			NODE_ENV: 'ci'
 		}
 	},
-
-	testDir: 'e2e'
+	testDir: 'e2e',
+	reporter: process.env.CI ? 'github' : 'list'
 });

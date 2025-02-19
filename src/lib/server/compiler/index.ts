@@ -14,7 +14,6 @@ let compilerLib: koffi.IKoffiLib;
 
 if (!building) {
 	const compilerLibPath = resolveCompilerBinaryPathOrThrow();
-	console.log('binary path', compilerLibPath, process.arch, process.platform);
 	compilerLib = koffi.load(compilerLibPath);
 }
 
