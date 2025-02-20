@@ -1,4 +1,10 @@
 import { GitHub } from 'arctic';
-import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '$env/static/private';
+import { env } from '$env/dynamic/private';
+import { building } from '$app/environment';
 
-export const github = new GitHub(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, null);
+if (!building) {
+	if (!env.GITHUB_CLIENT_ID) throw new Error('GITHUB_CLIENT_ID is not set');
+	if (!env.GITHUB_CLIENT_SECRET) throw new Error('GITHUB_CLIENT_SECRET is not set');
+}
+
+export const github = new GitHub(env.GITHUB_CLIENT_ID!, env.GITHUB_CLIENT_SECRET!, null);

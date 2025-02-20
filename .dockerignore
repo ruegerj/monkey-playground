@@ -1,0 +1,14 @@
+.svelte-kit/
+.github/
+node_modules/
+build/
+e2e/
+test-results/
+docs/
+
+.prettier*
+.npmrc
+.env
+eslint.config.js
+README.md
+*.db

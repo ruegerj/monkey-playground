@@ -5,7 +5,7 @@ import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { isRunningIn } from './env';
-import { CI_AVATAR_URL, CI_USER_ID, CI_USERNAME } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
@@ -93,13 +93,13 @@ function createSessionId(token: string): string {
 
 function impersonateTestUser() {
 	const testUser = {
-		id: CI_USER_ID,
-		username: CI_USERNAME,
-		avatarUrl: CI_AVATAR_URL
+		id: env.CI_USER_ID,
+		username: env.CI_USERNAME,
+		avatarUrl: env.CI_AVATAR_URL
 	};
 	const testSession = {
 		id: createSessionId('5678'),
-		userId: CI_USER_ID,
+		userId: env.CI_USER_ID,
 		expiresAt: new Date(Date.now() + DAY_IN_MS)
 	};
 

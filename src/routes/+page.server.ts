@@ -1,7 +1,7 @@
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { compileAndRun } from '$lib/server/compiler';
-import { MAX_ALLOWED_CHARS_CODE } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 export const load: PageServerLoad = (event) => {
 	return {
@@ -22,7 +22,7 @@ export const actions = {
 			return fail(422, { error: 'Code cannot be empty.' });
 		}
 
-		if (code.length > parseInt(MAX_ALLOWED_CHARS_CODE)) {
+		if (code.length > parseInt(env.MAX_ALLOWED_CHARS_CODE ?? '1000')) {
 			return fail(422, {
 				error: 'Code exceeds maximum length which is allowed to be compiled.'
 			});
