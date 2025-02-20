@@ -6,3 +6,4 @@ Web-Sandbox for writing, compiling and executing [Monkey](https://monkeylang.org
 
 - [Requirements & Specification](/docs/requirements.md)
 - [Work Journal](/docs/work-journal.md)
+- [Changelog](/CHANGELOG.md)
