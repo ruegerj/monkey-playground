@@ -51,7 +51,7 @@ To run the generated image, use the command below while inserting the correspond
 
 ```bash
 docker run -dit \
-    -e MAX_ALLOWED_CHARS=10000 \
+    -e PUBLIC_MAX_ALLOWED_CHARS=10000 \
     -e GITHUB_CLIENT_ID=<client-id> \
     -e GITHUB_CLIENT_SECRET=<client-secret> \
     -p 5173:5173 \

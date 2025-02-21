@@ -1,14 +1,21 @@
-import { fail, type Actions } from '@sveltejs/kit';
+import { error, fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { compileAndRun } from '$lib/server/compiler';
-import { env } from '$env/dynamic/private';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { snippetNameFormSchema } from './schema';
+import { maxCodeChars, snippetFormSchema } from './schema';
+import { validate } from 'uuid';
 
-export const load: PageServerLoad = async () => {
+const UNSAVED_SNIPPET_ID = 'new';
+
+export const load: PageServerLoad = async ({ params }) => {
+	const snippetId = params.id;
+	if (snippetId !== UNSAVED_SNIPPET_ID && !validate(snippetId)) {
+		return error(404, 'Snippet not found');
+	}
+
 	return {
-		form: await superValidate(zod(snippetNameFormSchema))
+		form: await superValidate(zod(snippetFormSchema))
 	};
 };
 
@@ -25,7 +32,7 @@ export const actions = {
 			return fail(422, { error: 'Code cannot be empty.' });
 		}
 
-		if (code.length > parseInt(env.MAX_ALLOWED_CHARS_CODE ?? '1000')) {
+		if (code.length > maxCodeChars) {
 			return fail(422, {
 				error: 'Code exceeds maximum length which is allowed to be compiled.'
 			});
