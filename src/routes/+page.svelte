@@ -8,8 +8,8 @@
 	import { applyAction, enhance } from '$app/forms';
 	import MonkeyGrammar from '$lib/monkey/grammar';
 	import { Button } from '$lib/components/ui/button';
-	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import RunOutput from '$lib/components/custom/run-output.svelte';
 
 	let { form, data }: PageProps = $props();
 	let code = $state('');
@@ -95,23 +95,11 @@
 			</form>
 		</div>
 		<div class="h-1/2 w-full overflow-scroll border-l p-2 md:h-full md:w-1/2">
-			<Tabs.Root value="output">
-				<Tabs.List>
-					<Tabs.Trigger value="output">Output</Tabs.Trigger>
-				</Tabs.List>
-				<Tabs.Content value="output">
-					<div class="px-2" data-test="code-output">
-						{#if form?.success}
-							<pre class="whitespace-pre-wrap">{form?.result}</pre>
-						{:else if form?.error}
-							<p class="text-red-400">{form.error}</p>
-						{:else}
-							<pre
-								class="whitespace-pre-wrap italic text-muted-foreground">Run code to see its output here...</pre>
-						{/if}
-					</div>
-				</Tabs.Content>
-			</Tabs.Root>
+			<RunOutput
+				successful={form?.success ?? false}
+				error={form?.error ?? ''}
+				output={form?.result ?? ''}
+			/>
 		</div>
 	</div>
 </div>
