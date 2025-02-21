@@ -49,28 +49,30 @@
 
 <div class="flex h-full flex-col overflow-hidden px-4 pb-4">
 	<div class="ml-auto py-2">
-		<Tooltip.Root>
-			<Tooltip.Trigger>
-				<Button
-					variant="default"
-					disabled={!canCodeBeRan}
-					data-test="code-run-btn"
-					on:click={() => compileCodeForm?.requestSubmit()}
-				>
-					{#if isLoading}
-						<IconLoader class="spin mr-1" />
-					{:else}
-						<IconPlay class="mr-1" />
-					{/if}
-					Run
-				</Button>
-			</Tooltip.Trigger>
-			{#if !canCodeBeRan}
-				<Tooltip.Content side="bottom">
-					<p>{runBtnTooltip}</p>
-				</Tooltip.Content>
-			{/if}
-		</Tooltip.Root>
+		<Tooltip.Provider>
+			<Tooltip.Root>
+				<Tooltip.Trigger>
+					<Button
+						variant="default"
+						disabled={!canCodeBeRan}
+						data-test="code-run-btn"
+						onclick={() => compileCodeForm?.requestSubmit()}
+					>
+						{#if isLoading}
+							<IconLoader class="spin mr-1" />
+						{:else}
+							<IconPlay class="mr-1" />
+						{/if}
+						Run
+					</Button>
+				</Tooltip.Trigger>
+				{#if !canCodeBeRan}
+					<Tooltip.Content side="bottom">
+						<p>{runBtnTooltip}</p>
+					</Tooltip.Content>
+				{/if}
+			</Tooltip.Root>
+		</Tooltip.Provider>
 	</div>
 
 	<div
