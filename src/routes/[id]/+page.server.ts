@@ -85,7 +85,7 @@ export const actions = {
 
 		// create new snippet
 		if (snippetId === UNSAVED_SNIPPET_ID) {
-			const created = await createSnippet(name, code, userId);
+			const created = await createSnippet(name, code, userId!);
 			return redirect(302, `/${created.id}`);
 		}
 
