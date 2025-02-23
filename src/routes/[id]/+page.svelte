@@ -16,7 +16,6 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { snippetFormSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { toast } from 'svelte-sonner';
 
 	let { form, data }: PageProps = $props();
 	let code = $state(data.snippet?.code ?? '');
@@ -33,7 +32,6 @@
 		clearOnSubmit: 'errors'
 	});
 	const { form: formData } = saveForm;
-	saveForm.form.set({ name: data.snippet?.name ?? '', code: '' });
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let CodeJar = $state() as any; // nasty workaround due to dynamic import

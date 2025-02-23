@@ -20,17 +20,22 @@ export const load: PageServerLoad = async ({ params }) => {
 		return error(404, 'Snippet not found');
 	}
 
+	const saveForm = await superValidate(zod(snippetFormSchema));
+
 	let snippet: Snippet | undefined;
 	if (snippetId !== UNSAVED_SNIPPET_ID) {
 		snippet = await getSnippetById(snippetId);
 		if (!snippet) {
 			return error(404, 'Snippet not found');
 		}
+
+		saveForm.data.name = snippet.name;
+		saveForm.data.code = snippet.code;
 	}
 
 	return {
 		snippet: snippet,
-		saveForm: await superValidate(zod(snippetFormSchema))
+		saveForm: saveForm
 	};
 };
 
@@ -98,7 +103,7 @@ export const actions = {
 		const updatedSnippet = await updateSnippetById(existing.id, name, code);
 
 		return {
-			form,
+			saveForm: form,
 			snippet: updatedSnippet
 		};
 	}
