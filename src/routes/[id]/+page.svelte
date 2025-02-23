@@ -16,6 +16,7 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { snippetFormSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { toast } from 'svelte-sonner';
 
 	let { form, data }: PageProps = $props();
 	let code = $state(data.snippet?.code ?? '');
@@ -61,6 +62,12 @@
 		formData.append('code', code);
 		return async ({ result }) => {
 			await applyAction(result);
+			if (result.type === 'error' || result.type === 'failure') {
+				toast.error('Failed to save snippet');
+			}
+			if (result.type === 'success' || result.type === 'redirect') {
+				toast.success('Snippet saved successfully');
+			}
 		};
 	};
 
