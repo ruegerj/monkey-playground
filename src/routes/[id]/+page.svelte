@@ -79,35 +79,37 @@
 
 <div class="flex h-full flex-col overflow-hidden px-4 pb-4">
 	<div class="flew-row flex">
-		<form
-			class="flex-reverse flex w-full py-2 pr-2"
-			method="POST"
-			action="?/saveSnippet"
-			use:enhance={handleSaveSnippet}
-		>
-			<div class="flex flex-grow flex-col space-y-0">
-				<Form.Field form={saveForm} name="name">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Input
-								{...props}
-								autocomplete="off"
-								bind:value={$formData.name}
-								placeholder="Give your snippet a name..."
-							/>
-						{/snippet}
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-				<Form.Field form={saveForm} name="code">
-					<Form.FieldErrors />
-				</Form.Field>
-			</div>
-			<Form.Button variant="secondary" class="ml-2">
-				<IconSave />
-				<span class="hidden md:inline">Save</span>
-			</Form.Button>
-		</form>
+		{#if data.user}
+			<form
+				class="flex-reverse flex w-full py-2 pr-2"
+				method="POST"
+				action="?/saveSnippet"
+				use:enhance={handleSaveSnippet}
+			>
+				<div class="flex flex-grow flex-col space-y-0">
+					<Form.Field form={saveForm} name="name">
+						<Form.Control>
+							{#snippet children({ props })}
+								<Input
+									{...props}
+									autocomplete="off"
+									bind:value={$formData.name}
+									placeholder="Give your snippet a name..."
+								/>
+							{/snippet}
+						</Form.Control>
+						<Form.FieldErrors />
+					</Form.Field>
+					<Form.Field form={saveForm} name="code">
+						<Form.FieldErrors />
+					</Form.Field>
+				</div>
+				<Form.Button variant="secondary" class="ml-2">
+					<IconSave />
+					<span class="hidden md:inline">Save</span>
+				</Form.Button>
+			</form>
+		{/if}
 		<div class="ml-auto py-2">
 			<Tooltip.Provider>
 				<Tooltip.Root>
