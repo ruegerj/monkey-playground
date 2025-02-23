@@ -80,19 +80,24 @@
 			action="?/saveSnippet"
 			use:enhance={handleSaveSnippet}
 		>
-			<Form.Field class="flex-grow space-y-0" form={saveForm} name="name">
-				<Form.Control>
-					{#snippet children({ props })}
-						<Input
-							{...props}
-							autocomplete="off"
-							bind:value={$formData.name}
-							placeholder="Give your snippet a name..."
-						/>
-					{/snippet}
-				</Form.Control>
-				<Form.FieldErrors />
-			</Form.Field>
+			<div class="flex flex-grow flex-col space-y-0">
+				<Form.Field form={saveForm} name="name">
+					<Form.Control>
+						{#snippet children({ props })}
+							<Input
+								{...props}
+								autocomplete="off"
+								bind:value={$formData.name}
+								placeholder="Give your snippet a name..."
+							/>
+						{/snippet}
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+				<Form.Field form={saveForm} name="code">
+					<Form.FieldErrors />
+				</Form.Field>
+			</div>
 			<Form.Button variant="secondary" class="ml-2">
 				<IconSave />
 				<span class="hidden md:inline">Save</span>
