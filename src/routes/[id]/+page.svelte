@@ -65,8 +65,8 @@
 			return;
 		}
 		formData.append('code', code);
-		return async ({ result }) => {
-			await applyAction(result);
+		return async ({ result, update }) => {
+			await update({ reset: false, invalidateAll: true });
 			if (result.type === 'error' || result.type === 'failure') {
 				toast.error('Failed to save snippet');
 			}
