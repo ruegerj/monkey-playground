@@ -92,9 +92,12 @@
 							{#snippet children({ props })}
 								<Input
 									{...props}
-									autocomplete="off"
 									bind:value={$formData.name}
 									placeholder="Give your snippet a name..."
+									autocomplete="off"
+									data-1p-ignore
+									data-lpignore="true"
+									data-protonpass-ignore="true"
 								/>
 							{/snippet}
 						</Form.Control>
