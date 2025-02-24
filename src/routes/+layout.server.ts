@@ -5,7 +5,7 @@ export const load: LayoutServerLoad = async (event) => {
 	let snippets: Snippet[] = [];
 
 	if (event.locals.user) {
-		snippets = await getSnippetsOfUser(event.locals.user.id);
+		snippets = await getSnippetsOfUser(event.locals.user.id!);
 	}
 
 	return {
