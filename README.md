@@ -56,5 +56,5 @@ docker run -dit \
     -e GITHUB_CLIENT_SECRET=<client-secret> \
     -p 5173:5173 \
     -v <host-path>:/db \
-    ruegerj/monkey-playground:0.5.0
+    ruegerj/monkey-playground:snapshot
 ```
