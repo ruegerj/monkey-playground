@@ -5,6 +5,7 @@
 	import type { Snippet as SvelteSnippet } from 'svelte';
 	import type { Snippet } from '$lib/server/router/snippet';
 	import { relativeTime } from '$lib/date';
+	import { Separator } from '$lib/components/ui/separator';
 
 	interface Props {
 		children: SvelteSnippet<[]>;
@@ -28,11 +29,22 @@
 			<Sheet.Title>My snippets</Sheet.Title>
 		</Sheet.Header>
 		<div class="flex-grow overflow-y-scroll">
-			{#each snippets as snippet}
-				<Button variant="link" class="block break-all" href={'/' + snippet.id} onclick={close}>
-					{snippet.name}
-					<i class="text-muted-foreground">{relativeTime(snippet.updatedAt)}</i>
-				</Button>
+			{#each snippets as snippet, i}
+				<div class="px-4 py-2">
+					<Button
+						variant="link"
+						class="block h-auto whitespace-normal break-all px-0 py-0 text-left"
+						href={'/' + snippet.id}
+						onclick={close}
+					>
+						{snippet.name}
+					</Button>
+					<i class="text-sm text-muted-foreground no-underline">{relativeTime(snippet.updatedAt)}</i
+					>
+				</div>
+				{#if i < snippets.length - 1}
+					<Separator class="my-2" />
+				{/if}
 			{/each}
 		</div>
 		<Sheet.Footer>
