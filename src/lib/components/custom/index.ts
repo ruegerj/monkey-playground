@@ -2,6 +2,6 @@ import GithubAuthBtn from './github-auth-btn.svelte';
 import ThemeToggleBtn from './theme-toggle-btn.svelte';
 import UserMenu from './user-menu.svelte';
 import RunOutput from './run-output.svelte';
-import Sidebar from './sidebar.svelte';
+import SnippetSidebar from './snippet-sidebar.svelte';
 
-export { GithubAuthBtn, ThemeToggleBtn, UserMenu, RunOutput, Sidebar };
+export { GithubAuthBtn, ThemeToggleBtn, UserMenu, RunOutput, SnippetSidebar };

@@ -28,25 +28,33 @@
 		<Sheet.Header>
 			<Sheet.Title>My snippets</Sheet.Title>
 		</Sheet.Header>
-		<div class="flex-grow overflow-y-scroll">
-			{#each snippets as snippet, i}
-				<div class="px-4 py-2">
-					<Button
-						variant="link"
-						class="block h-auto whitespace-normal break-all px-0 py-0 text-left"
-						href={'/' + snippet.id}
-						onclick={close}
-					>
-						{snippet.name}
-					</Button>
-					<i class="text-sm text-muted-foreground no-underline">{relativeTime(snippet.updatedAt)}</i
-					>
-				</div>
-				{#if i < snippets.length - 1}
-					<Separator class="my-2" />
-				{/if}
-			{/each}
-		</div>
+		{#if snippets.length}
+			<div class="flex-grow overflow-y-scroll">
+				{#each snippets as snippet, i}
+					<div class="px-4 py-2">
+						<Button
+							variant="link"
+							class="block h-auto whitespace-normal break-all px-0 py-0 text-left"
+							href={'/' + snippet.id}
+							onclick={close}
+						>
+							{snippet.name}
+						</Button>
+						<i class="text-sm text-muted-foreground no-underline"
+							>{relativeTime(snippet.updatedAt)}</i
+						>
+					</div>
+					{#if i < snippets.length - 1}
+						<Separator class="my-2" />
+					{/if}
+				{/each}
+			</div>
+		{:else}
+			<div class="flex flex-grow flex-col justify-center text-center text-sm text-muted-foreground">
+				<i>Wow such empty... </i>
+				<span>Save your code to create your first snippet</span>
+			</div>
+		{/if}
 		<Sheet.Footer>
 			<Button href="/new" onclick={close}>
 				<IconPlus />
