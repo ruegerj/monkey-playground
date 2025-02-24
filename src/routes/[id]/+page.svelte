@@ -33,6 +33,11 @@
 		clearOnSubmit: 'errors'
 	});
 	const { form: formData } = saveForm;
+	$effect(() => {
+		if (data.saveForm) {
+			code = data.saveForm.data.code;
+		}
+	});
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let CodeJar = $state() as any; // nasty workaround due to dynamic import
@@ -60,8 +65,8 @@
 			return;
 		}
 		formData.append('code', code);
-		return async ({ result }) => {
-			await applyAction(result);
+		return async ({ result, update }) => {
+			await update({ reset: false, invalidateAll: true });
 			if (result.type === 'error' || result.type === 'failure') {
 				toast.error('Failed to save snippet');
 			}

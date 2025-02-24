@@ -12,6 +12,12 @@ export async function getSnippetById(uuid: string): Promise<Snippet | undefined>
 	});
 }
 
+export async function getSnippetsOfUser(userId: string): Promise<Snippet[]> {
+	return db.query.snippet.findMany({
+		where: eq(snippet.userId, userId)
+	});
+}
+
 export async function createSnippet(name: string, code: string, ownerId: string): Promise<Snippet> {
 	if (!name) {
 		throw new Error('Name of snippet is required');
@@ -53,7 +59,8 @@ export async function updateSnippetById(
 		.update(snippet)
 		.set({
 			code: code,
-			name: name
+			name: name,
+			updatedAt: new Date()
 		})
 		.where(eq(snippet.id, uuid))
 		.returning();
