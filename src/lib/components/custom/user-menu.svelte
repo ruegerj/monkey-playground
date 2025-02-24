@@ -14,8 +14,8 @@
 </script>
 
 <DropdownMenu.Root>
-	<DropdownMenu.Trigger asChild let:builder>
-		<Button variant="outline" builders={[builder]} class="relative h-8 w-8 rounded-full">
+	<DropdownMenu.Trigger>
+		<Button variant="outline" class="relative h-8 w-8 rounded-full">
 			<Avatar.Root data-test="user-avatar" class="h-8 w-8">
 				<Avatar.Image
 					data-test="user-avatar-img"
@@ -36,7 +36,7 @@
 			</div>
 		</DropdownMenu.Label>
 		<DropdownMenu.Separator />
-		<DropdownMenu.Item class="cursor-pointer" data-test="user-menu-sign-out-btn" on:click={logout}>
+		<DropdownMenu.Item class="cursor-pointer" data-test="user-menu-sign-out-btn" onclick={logout}>
 			Sign out
 			<DropdownMenu.Shortcut>
 				<IconLogOut />
