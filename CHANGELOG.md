@@ -1,3 +1,16 @@
+# 0.6.0
+
+**Features:**
+
+- Saving Code Snippets ([#3](https://github.com/ruegerj/monkey-playground/issues/3))
+
+  - adds a form for either creating a new or updating an existing code snippet
+  - adds infrastructure for loading a snippet by its dedicated id as url-parameter
+  - adds global error page (e.g. for displaying 404 - Not found when a snippet doesn't exist)
+
+- Overview & Display saved Code Snippets ([#4](https://github.com/ruegerj/monkey-playground/issues/4))
+  - adds collapsible sidebar listing all snippets of a signed in user
+
 # 0.5.0
 
 **Features:**
