@@ -59,7 +59,8 @@ export async function updateSnippetById(
 		.update(snippet)
 		.set({
 			code: code,
-			name: name
+			name: name,
+			updatedAt: new Date()
 		})
 		.where(eq(snippet.id, uuid))
 		.returning();
