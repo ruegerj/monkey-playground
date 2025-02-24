@@ -21,15 +21,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Login to ghcr.io
-        run: docker login ghcr.io -u ruegerj
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
       - name: Docker Build
         run: docker build --platform linux/amd64 -t ruegerj/monkey-playground:${{github.event.release.tag_name}} .
 
       - name: Docker Push
         run: |
-          - docker tag ruegerj/monkey-playground:${{github.event.release.tag_name}} ghcr.io/ruegerj/monkey-playground:${{github.event.release.tag_name}}
-          - docker push ghcr.io/ruegerj/monkey-playground:${{github.event.release.tag_name}}
-          - docker tag ghcr.io/ruegerj/monkey-playground:${{github.event.release.tag_name}} ghcr.io/ruegerj/monkey-playground:latest
-          - docker push ghcr.io/ruegerj/monkey-playground:latest
+          docker tag ruegerj/monkey-playground:${{github.event.release.tag_name}} ghcr.io/ruegerj/monkey-playground:${{github.event.release.tag_name}}
+          docker push ghcr.io/ruegerj/monkey-playground:${{github.event.release.tag_name}}
+          docker tag ghcr.io/ruegerj/monkey-playground:${{github.event.release.tag_name}} ghcr.io/ruegerj/monkey-playground:latest
+          docker push ghcr.io/ruegerj/monkey-playground:latest
