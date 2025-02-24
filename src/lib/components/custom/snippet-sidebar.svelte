@@ -9,10 +9,11 @@
 
 	interface Props {
 		children: SvelteSnippet<[]>;
+		currentSnippetId: string | null;
 		snippets: Snippet[];
 	}
 
-	let { snippets, children }: Props = $props();
+	let { snippets, currentSnippetId, children }: Props = $props();
 	let open = $state(false);
 
 	function close() {
@@ -31,7 +32,7 @@
 		{#if snippets.length}
 			<div class="flex-grow overflow-y-scroll">
 				{#each snippets as snippet, i}
-					<div class="px-4 py-2">
+					<div class="rounded-sm px-4 py-2" class:bg-secondary={snippet.id === currentSnippetId}>
 						<Button
 							variant="link"
 							class="block h-auto whitespace-normal break-all px-0 py-0 text-left"

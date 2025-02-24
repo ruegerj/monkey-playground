@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button/';
 	import IconMenu from 'virtual:icons/lucide/menu';
 	import { SnippetSidebar } from '$lib/components/custom/';
+	import { page } from '$app/state';
 
 	let { data, children } = $props();
 	let logoutForm = $state<HTMLFormElement>();
@@ -24,7 +25,7 @@
 	<nav class="border-b">
 		<div class="flex h-16 items-center px-4">
 			{#if signedIn}
-				<SnippetSidebar snippets={data.snippets}>
+				<SnippetSidebar currentSnippetId={page.data?.snippet?.id} snippets={data.snippets}>
 					<Button variant="ghost">
 						<IconMenu />
 					</Button>
