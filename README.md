@@ -1,5 +1,8 @@
 # Monkey Playground
 
+[![CI](https://github.com/ruegerj/monkey-playground/actions/workflows/ci.yaml/badge.svg)](https://github.com/ruegerj/monkey-playground/actions/workflows/ci.yaml)
+[![CD](https://github.com/ruegerj/monkey-playground/actions/workflows/cd.yaml/badge.svg)](https://github.com/ruegerj/monkey-playground/actions/workflows/cd.yaml)
+
 Web-Sandbox for writing, compiling and executing [Monkey](https://monkeylang.org/) code from your browser.
 
 ## Contents
