@@ -30,7 +30,7 @@
 			<Sheet.Title>My snippets</Sheet.Title>
 		</Sheet.Header>
 		{#if snippets.length}
-			<div class="flex-grow overflow-y-scroll">
+			<div class="flex-grow overflow-y-auto">
 				{#each snippets as snippet, i}
 					<div class="rounded-sm px-4 py-2" class:bg-secondary={snippet.id === currentSnippetId}>
 						<Button
