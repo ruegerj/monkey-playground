@@ -10,19 +10,20 @@
 	import MonkeyGrammar from '$lib/monkey/grammar';
 	import { Button } from '$lib/components/ui/button';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import RunOutput from '$lib/components/custom/run-output.svelte';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import { superForm } from 'sveltekit-superforms';
 	import { snippetFormSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
+	import { ShareSnippetBtn, RunOutput } from '$lib/components/custom';
 
 	let { form, data }: PageProps = $props();
 	let code = $state(data.snippet?.code ?? '');
 	let isCompiling = $state(false);
 	let isCodeNotEmpty = $derived(code.trim().length > 0);
 	let canCodeBeRan = $derived(isCodeNotEmpty && data.user != null && !isCompiling);
+	let canSnippetBeShared = $derived(data.snippet?.id != null && data.user != null);
 	let runBtnTooltip = $derived(
 		!data.user ? 'Sign in to run code' : !isCodeNotEmpty ? 'Write some code in order to run it' : ''
 	);
@@ -118,6 +119,11 @@
 					<span class="hidden md:inline">Save</span>
 				</Form.Button>
 			</form>
+		{/if}
+		{#if canSnippetBeShared}
+			<div class="py-2 pr-2">
+				<ShareSnippetBtn snippet={data.snippet} />
+			</div>
 		{/if}
 		<div class="ml-auto py-2">
 			<Tooltip.Provider>
