@@ -149,7 +149,7 @@
 	<div
 		class="flex flex-grow flex-col space-y-3 overflow-hidden rounded-sm border md:flex-row md:space-y-0"
 	>
-		<div class="flex h-1/2 w-full flex-col overflow-scroll border-r p-2 md:h-full md:w-1/2">
+		<div class="flex h-1/2 w-full flex-col overflow-auto border-r p-2 md:h-full md:w-1/2">
 			<h3 class="tracking-light space-y-1.5 p-2 pb-6 text-lg font-semibold leading-none">Code</h3>
 			<form
 				class="flex-auto cursor-text px-2"
@@ -167,7 +167,7 @@
 				{/if}
 			</form>
 		</div>
-		<div class="h-1/2 w-full overflow-scroll border-l p-2 md:h-full md:w-1/2">
+		<div class="h-1/2 w-full overflow-auto border-l p-2 md:h-full md:w-1/2">
 			<RunOutput
 				successful={form?.success ?? false}
 				error={form?.error ?? ''}
