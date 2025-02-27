@@ -68,11 +68,11 @@
 		"zod": "^3.24.2"
 	},
 	"dependencies": {
-		"@novacbn/svelte-codejar": "^0.1.2",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
 		"arctic": "^3.2.3",
 		"better-sqlite3": "^11.8.0",
+		"codejar": "^4.2.0",
 		"drizzle-orm": "^0.38.4",
 		"koffi": "^2.10.1",
 		"mode-watcher": "^0.5.1",

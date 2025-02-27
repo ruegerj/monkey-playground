@@ -1,13 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import Prism from 'prismjs';
 	import IconPlay from 'virtual:icons/lucide/play';
 	import IconLoader from 'virtual:icons/lucide/loader-circle';
 	import IconSave from 'virtual:icons/lucide/save';
 	import type { PageProps } from './$types';
 	import { applyAction, enhance } from '$app/forms';
-	import MonkeyGrammar from '$lib/monkey/grammar';
 	import { Button } from '$lib/components/ui/button';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import * as Form from '$lib/components/ui/form';
@@ -16,7 +13,7 @@
 	import { snippetFormSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
-	import { ShareSnippetBtn, RunOutput } from '$lib/components/custom';
+	import { ShareSnippetBtn, RunOutput, CodeJar } from '$lib/components/custom';
 
 	let { form, data }: PageProps = $props();
 	let code = $state(data.snippet?.code ?? '');
@@ -40,14 +37,7 @@
 		}
 	});
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let CodeJar = $state() as any; // nasty workaround due to dynamic import
 	let compileCodeForm = $state<HTMLFormElement>();
-
-	Prism.languages['monkey-lang'] = MonkeyGrammar;
-
-	const highlight = (code: string, syntax: string) =>
-		Prism.highlight(code, Prism.languages[syntax], syntax);
 
 	const handleCompileCode: SubmitFunction = ({ formData }) => {
 		if (code.trim().length <= 0) {
@@ -76,11 +66,6 @@
 			}
 		};
 	};
-
-	onMount(async () => {
-		// import component on mount since it requires a window obj to be present upon initialization (would fail for ssr)
-		({ CodeJar } = await import('@novacbn/svelte-codejar'));
-	});
 </script>
 
 <div class="flex h-full flex-col overflow-hidden px-4 pb-4">
@@ -164,12 +149,7 @@
 				bind:this={compileCodeForm}
 				use:enhance={handleCompileCode}
 			>
-				{#if CodeJar}
-					<CodeJar class="h-full" bind:value={code} syntax="monkey-lang" {highlight} />
-				{:else}
-					<!-- in case JS is not enabled -->
-					<pre><code>{code}</code></pre>
-				{/if}
+				<CodeJar class="h-full" bind:code />
 			</form>
 		</div>
 		<div class="h-1/2 w-full overflow-auto rounded-sm border p-2 md:h-full md:w-1/2">
