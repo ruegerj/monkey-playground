@@ -19,7 +19,7 @@ export function codejar(node: HTMLElement, options: CodeJarOptions): ActionRetur
 	import('codejar').then(({ CodeJar }) => {
 		jar = CodeJar(node, wrapHighlight(options.highlight, options.syntax));
 		jar.onUpdate(options.onUpdate);
-		node.contentEditable = options.editorEnabled ? 'text-only' : 'false';
+		updateVisibility(node, options.editorEnabled);
 	});
 
 	return {
@@ -28,13 +28,19 @@ export function codejar(node: HTMLElement, options: CodeJarOptions): ActionRetur
 		},
 		update(newOptions: CodeJarOptions) {
 			if (newOptions.value !== jar?.toString()) {
+				const pos = jar.save();
 				jar?.updateCode(newOptions.value);
+				jar.restore(pos);
 			}
 			if (newOptions.editorEnabled !== options.editorEnabled) {
-				node.contentEditable = newOptions.editorEnabled ? 'text-only' : 'false';
+				updateVisibility(node, newOptions.editorEnabled);
 			}
 		}
 	};
+}
+
+function updateVisibility(node: HTMLElement, enabled: boolean) {
+	node.contentEditable = enabled ? 'plaintext-only' : 'false';
 }
 
 function wrapHighlight(highlight: HighlightFunc, syntax: string): HighlightElementFunc {

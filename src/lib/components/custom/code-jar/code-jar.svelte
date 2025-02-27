@@ -1,4 +1,5 @@
 <script lang="ts">
+	/* eslint-disable svelte/no-at-html-tags */
 	import Prism from 'prismjs';
 	import MonkeyGrammar from '$lib/monkey/grammar';
 	import { codejar } from './code-jar.action';
@@ -25,6 +26,7 @@
 	}
 </script>
 
+/* eslint-disable no-use-before-define */
 <pre
 	class="{'language-' + monkeySyntax} {clazz ?? ''}"
 	bind:this={container}

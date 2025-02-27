@@ -20,6 +20,7 @@
 	let isCompiling = $state(false);
 	let isCodeNotEmpty = $derived(code.trim().length > 0);
 	let canCodeBeRan = $derived(isCodeNotEmpty && data.user != null && !isCompiling);
+	let canCodeBeEdited = $derived(!data.snippet?.id || data.user?.id === data.snippet?.userId);
 	let canSnippetBeShared = $derived(data.snippet?.id != null && data.user != null);
 	let runBtnTooltip = $derived(
 		!data.user ? 'Sign in to run code' : !isCodeNotEmpty ? 'Write some code in order to run it' : ''
@@ -149,7 +150,7 @@
 				bind:this={compileCodeForm}
 				use:enhance={handleCompileCode}
 			>
-				<CodeJar class="h-full" bind:code />
+				<CodeJar class="h-full" bind:code enabled={canCodeBeEdited} />
 			</form>
 		</div>
 		<div class="h-1/2 w-full overflow-auto rounded-sm border p-2 md:h-full md:w-1/2">
