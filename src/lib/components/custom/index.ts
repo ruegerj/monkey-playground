@@ -3,5 +3,15 @@ import ThemeToggleBtn from './theme-toggle-btn.svelte';
 import UserMenu from './user-menu.svelte';
 import RunOutput from './run-output.svelte';
 import SnippetSidebar from './snippet-sidebar.svelte';
+import ShareSnippetBtn from './share-snippet-btn.svelte';
+import CodeJar from './code-jar/code-jar.svelte';
 
-export { GithubAuthBtn, ThemeToggleBtn, UserMenu, RunOutput, SnippetSidebar };
+export {
+	GithubAuthBtn,
+	ThemeToggleBtn,
+	UserMenu,
+	RunOutput,
+	SnippetSidebar,
+	ShareSnippetBtn,
+	CodeJar
+};

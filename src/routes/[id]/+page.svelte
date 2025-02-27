@@ -1,28 +1,27 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import Prism from 'prismjs';
 	import IconPlay from 'virtual:icons/lucide/play';
 	import IconLoader from 'virtual:icons/lucide/loader-circle';
 	import IconSave from 'virtual:icons/lucide/save';
 	import type { PageProps } from './$types';
 	import { applyAction, enhance } from '$app/forms';
-	import MonkeyGrammar from '$lib/monkey/grammar';
 	import { Button } from '$lib/components/ui/button';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import RunOutput from '$lib/components/custom/run-output.svelte';
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import { superForm } from 'sveltekit-superforms';
 	import { snippetFormSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
+	import { ShareSnippetBtn, RunOutput, CodeJar } from '$lib/components/custom';
 
 	let { form, data }: PageProps = $props();
 	let code = $state(data.snippet?.code ?? '');
 	let isCompiling = $state(false);
 	let isCodeNotEmpty = $derived(code.trim().length > 0);
 	let canCodeBeRan = $derived(isCodeNotEmpty && data.user != null && !isCompiling);
+	let canCodeBeEdited = $derived(!data.snippet?.id || data.user?.id === data.snippet?.userId);
+	let canSnippetBeShared = $derived(data.snippet?.id != null && data.user != null);
 	let runBtnTooltip = $derived(
 		!data.user ? 'Sign in to run code' : !isCodeNotEmpty ? 'Write some code in order to run it' : ''
 	);
@@ -39,14 +38,7 @@
 		}
 	});
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let CodeJar = $state() as any; // nasty workaround due to dynamic import
 	let compileCodeForm = $state<HTMLFormElement>();
-
-	Prism.languages['monkey-lang'] = MonkeyGrammar;
-
-	const highlight = (code: string, syntax: string) =>
-		Prism.highlight(code, Prism.languages[syntax], syntax);
 
 	const handleCompileCode: SubmitFunction = ({ formData }) => {
 		if (code.trim().length <= 0) {
@@ -75,16 +67,11 @@
 			}
 		};
 	};
-
-	onMount(async () => {
-		// import component on mount since it requires a window obj to be present upon initialization (would fail for ssr)
-		({ CodeJar } = await import('@novacbn/svelte-codejar'));
-	});
 </script>
 
 <div class="flex h-full flex-col overflow-hidden px-4 pb-4">
 	<div class="flew-row flex">
-		{#if data.user}
+		{#if data.user && canCodeBeEdited}
 			<form
 				class="flex-reverse flex w-full py-2 pr-2"
 				method="POST"
@@ -98,6 +85,7 @@
 								<Input
 									{...props}
 									bind:value={$formData.name}
+									disabled={isCompiling}
 									placeholder="Give your snippet a name..."
 									autocomplete="off"
 									data-1p-ignore
@@ -112,11 +100,16 @@
 						<Form.FieldErrors />
 					</Form.Field>
 				</div>
-				<Form.Button variant="secondary" class="ml-2">
+				<Form.Button variant="secondary" class="ml-2" disabled={isCompiling}>
 					<IconSave />
 					<span class="hidden md:inline">Save</span>
 				</Form.Button>
 			</form>
+		{/if}
+		{#if canSnippetBeShared}
+			<div class="py-2 pr-2">
+				<ShareSnippetBtn snippet={data.snippet} />
+			</div>
 		{/if}
 		<div class="ml-auto py-2">
 			<Tooltip.Provider>
@@ -146,10 +139,8 @@
 		</div>
 	</div>
 
-	<div
-		class="flex flex-grow flex-col space-y-3 overflow-hidden rounded-sm border md:flex-row md:space-y-0"
-	>
-		<div class="flex h-1/2 w-full flex-col overflow-scroll border-r p-2 md:h-full md:w-1/2">
+	<div class="flex flex-grow flex-col gap-2 overflow-hidden md:flex-row md:space-y-0">
+		<div class="flex h-1/2 w-full flex-col overflow-auto rounded-sm border p-2 md:h-full md:w-1/2">
 			<h3 class="tracking-light space-y-1.5 p-2 pb-6 text-lg font-semibold leading-none">Code</h3>
 			<form
 				class="flex-auto cursor-text px-2"
@@ -159,15 +150,10 @@
 				bind:this={compileCodeForm}
 				use:enhance={handleCompileCode}
 			>
-				{#if CodeJar}
-					<CodeJar class="h-full" bind:value={code} syntax="monkey-lang" {highlight} />
-				{:else}
-					<!-- in case JS is not enabled -->
-					<pre><code>{code}</code></pre>
-				{/if}
+				<CodeJar class="h-full" bind:code enabled={canCodeBeEdited} />
 			</form>
 		</div>
-		<div class="h-1/2 w-full overflow-scroll border-l p-2 md:h-full md:w-1/2">
+		<div class="h-1/2 w-full overflow-auto rounded-sm border p-2 md:h-full md:w-1/2">
 			<RunOutput
 				successful={form?.success ?? false}
 				error={form?.error ?? ''}
