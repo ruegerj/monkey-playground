@@ -26,7 +26,6 @@
 	}
 </script>
 
-/* eslint-disable no-use-before-define */
 <pre
 	class="{'language-' + monkeySyntax} {clazz ?? ''}"
 	bind:this={container}

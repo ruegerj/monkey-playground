@@ -71,7 +71,7 @@
 
 <div class="flex h-full flex-col overflow-hidden px-4 pb-4">
 	<div class="flew-row flex">
-		{#if data.user}
+		{#if data.user && canCodeBeEdited}
 			<form
 				class="flex-reverse flex w-full py-2 pr-2"
 				method="POST"

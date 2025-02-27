@@ -40,7 +40,7 @@ test('authenticated user can run code', async ({ page }) => {
 	await page.goto('/');
 	await signIn(page);
 
-	await findCodeEditor(page).fill(codeSnippet);
+	await findCodeEditor(page).pressSequentially(codeSnippet);
 	const runBtn = findElement(page, CODE_RUN_BTN);
 	await expect(runBtn).toBeEnabled();
 	await runBtn.click();
