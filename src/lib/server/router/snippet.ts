@@ -66,3 +66,7 @@ export async function updateSnippetById(
 		.returning();
 	return updatedSnippet;
 }
+
+export async function deleteSnippetById(uuid: string): Promise<void> {
+	await db.delete(snippet).where(eq(snippet.id, uuid));
+}

@@ -23,10 +23,11 @@ The efforts for adapting the [monkey compiler](https://github.com/ruegerj/monkey
 | 24.02.2025 | 3h       | - Add expandable sidebar for listing all snippets of the current user ([#4][i4]) <br/> - Fix some issues leading to stale page data after a form submit <br/> - Highlight currently opened snippet in sidebar ([#4][i4])                                                                                                                                                                            |
 | 25.02.2025 | 2.5h     | - Add CD pipeline for building & pushing a docker image after a new GitHub release has been published <br/> - Add dialog for copying the share link to access another users snippet ([#5][i5])                                                                                                                                                                                                      |
 | 27.02.2025 | 3.5h     | - Write custom Svelte adapter for [codejar](https://github.com/antonmedv/codejar), in order to be able to control if the editor is enabled or not ([#5](i5)) <br/> - Disable code editor for a shared script where the current user isn't the owner ([#5](i5))                                                                                                                                      |
-| 28.02.2025 | 2h       | Enhance run code output by capturing the stdout (e.g. `puts()` calls in monkey) and if the snippet could be compiled and ran successfully ([#1][i1])                                                                                                                                                                                                                                                |
+| 28.02.2025 | 3h       | Enhance run code output by capturing the stdout (e.g. `puts()` calls in monkey) and if the snippet could be compiled and ran successfully ([#1][i1]) <br/> - Add deletion of previously saved snippets with addtional confirmation dialog ([i8])                                                                                                                                                    |
 
 [i1]: https://github.com/ruegerj/monkey-playground/issues/1
 [i2]: https://github.com/ruegerj/monkey-playground/issues/2
 [i3]: https://github.com/ruegerj/monkey-playground/issues/3
 [i4]: https://github.com/ruegerj/monkey-playground/issues/4
 [i5]: https://github.com/ruegerj/monkey-playground/issues/5
+[i8]: https://github.com/ruegerj/monkey-playground/issues/8

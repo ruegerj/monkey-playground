@@ -7,6 +7,7 @@ import { maxCodeChars, snippetFormSchema } from './schema';
 import { validate } from 'uuid';
 import {
 	createSnippet,
+	deleteSnippetById,
 	getSnippetById,
 	updateSnippetById,
 	type Snippet
@@ -106,5 +107,27 @@ export const actions = {
 			saveForm: form,
 			snippet: updatedSnippet
 		};
+	},
+	deleteSnippet: async ({ locals, params }) => {
+		if (!locals.session || !locals.user) {
+			return fail(401);
+		}
+
+		const snippetId = params.id;
+		const userId = locals.user.id;
+
+		if (!snippetId || snippetId === UNSAVED_SNIPPET_ID) {
+			return fail(400);
+		}
+
+		const existing = await getSnippetById(snippetId);
+
+		if (!existing || existing.userId !== userId) {
+			return fail(404); // do not leak existence of other snippets
+		}
+
+		await deleteSnippetById(snippetId);
+
+		return redirect(302, '/');
 	}
 } satisfies Actions;

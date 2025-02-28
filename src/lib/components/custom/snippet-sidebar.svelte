@@ -50,7 +50,7 @@
 								>{relativeTime(snippet.updatedAt)}</i
 							>
 						</div>
-						<DeleteSnippetBtn snippetId={snippet.id} />
+						<DeleteSnippetBtn snippetId={snippet.id} onDeleted={close} />
 					</div>
 					{#if i < snippets.length - 1}
 						<Separator class="my-2" />
