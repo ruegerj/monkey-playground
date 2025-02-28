@@ -12,6 +12,7 @@
   - [5 - Share Code Snippets](#story-5-share-code-snippets-should)
   - [6 - View Bytecode of executed Code](#story-6-view-bytecode-of-executed-code-could)
   - [7 - View AST of executed Code](#story-7-view-ast-of-executed-code-could)
+  - [8 - Delete Code Snippets](#story-8-delete-code-snippets-should)
 
 ## Motivation
 
@@ -108,3 +109,15 @@ As a signed-in user, I want to view the generated abstract syntax tree (AST) aft
 
 - After a successful execution of the code, the generated AST is displayed in a dedicated area
 - If the compilation of the code failed, no AST is displayed
+
+### Story-8: Delete Code Snippets (_Should_)
+
+As a signed-in user, I want to be able to delete a previously saved snippet of mine when I don't need it anymore. [^2]
+
+**Acceptance criteria:**
+
+- Signed-in users can delete snippets one at a time
+- An additional confirmation should occur before the snippet is deleted
+- No user except the owner of the snippet is able to delete it
+
+[^2]: Issue was identified during the development process. Since it was a relatively "low hanging fruit" it was prioritized before the other _could_ stories.
