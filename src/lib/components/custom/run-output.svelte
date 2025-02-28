@@ -1,8 +1,10 @@
 <script lang="ts">
 	import * as Tabs from '$lib/components/ui/tabs';
+	import type { RunResult } from '$lib/server/compiler';
+	import { Separator } from '../ui/separator';
 
 	interface Props {
-		output: string;
+		output?: RunResult;
 		successful: boolean;
 		error: string;
 	}
@@ -16,10 +18,16 @@
 	</Tabs.List>
 	<Tabs.Content value="output">
 		<div class="px-2" data-test="code-output">
-			{#if successful}
-				<pre class="whitespace-pre-wrap">{output}</pre>
+			{#if successful && output?.successful}
+				{#if output.std_output.length}
+					<pre class="whitespace-pre-wrap">{output.std_output}</pre>
+					<Separator class="my-2" />
+				{/if}
+				<pre class="whitespace-pre-wrap">{output.result}</pre>
 			{:else if error}
 				<p class="text-red-400">{error}</p>
+			{:else if output && !output.successful}
+				<p class="text-red-400">{output.result}</p>
 			{:else}
 				<pre
 					class="whitespace-pre-wrap italic text-muted-foreground">Run code to see its output here...</pre>

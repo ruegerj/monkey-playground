@@ -58,7 +58,7 @@ export const actions = {
 			});
 		}
 
-		const result = await compileAndRun(code ? code.toString() : '');
+		const result = await compileAndRun(code);
 
 		return { success: true, result: result };
 	},

@@ -49,6 +49,12 @@
 		return async ({ result }) => {
 			await applyAction(result);
 			isCompiling = false;
+			if (result.type === 'error' || result.type === 'failure') {
+				toast.error('Failed to run code snippet');
+			}
+			if (result.type === 'success' && !result.data?.result?.successful) {
+				toast.error('Compilation or execution of code snippet failed');
+			}
 		};
 	};
 
@@ -157,7 +163,7 @@
 			<RunOutput
 				successful={form?.success ?? false}
 				error={form?.error ?? ''}
-				output={form?.result ?? ''}
+				output={form?.result}
 			/>
 		</div>
 	</div>

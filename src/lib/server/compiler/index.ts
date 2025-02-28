@@ -2,6 +2,18 @@ import { join } from 'node:path';
 import koffi from 'koffi';
 import { building } from '$app/environment';
 
+export interface RunResult {
+	successful: boolean;
+	/**
+	 * Output when successful, error message when failed
+	 */
+	result: string;
+	/**
+	 * Collected stdout of run
+	 */
+	std_output: string;
+}
+
 const VALID_PLATFORMS: NodeJS.Platform[] = ['win32', 'darwin', 'linux'];
 const VALID_ARCHITECTURES: NodeJS.Architecture[] = ['arm64', 'x64'];
 const PLATFORM_EXTENSION_LOOKUP: Partial<Record<NodeJS.Platform, string>> = {
@@ -15,12 +27,13 @@ let compilerLib: koffi.IKoffiLib;
 if (!building) {
 	const compilerLibPath = resolveCompilerBinaryPathOrThrow();
 	compilerLib = koffi.load(compilerLibPath);
+	defineKoffiStubs();
 }
 
-export function compileAndRun(code: string): Promise<string> {
+export function compileAndRun(code: string): Promise<RunResult> {
 	return new Promise((resolve) => {
-		const compileFunc = compilerLib.func('char* CompileAndRun(char*)');
-		const result = compileFunc(code);
+		const compileFunc = compilerLib.func('RunResult CompileAndRun(char*)');
+		const result: RunResult = compileFunc(code);
 
 		resolve(result);
 	});
@@ -56,4 +69,12 @@ export function resolveCompilerBinaryPathOrThrow(): string {
 	];
 
 	return join(...pathFragments);
+}
+
+function defineKoffiStubs() {
+	koffi.struct('RunResult', {
+		successful: 'bool',
+		result: 'char*',
+		std_output: 'char*'
+	});
 }

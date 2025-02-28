@@ -27,9 +27,9 @@ export function codejar(node: HTMLElement, options: CodeJarOptions): ActionRetur
 			jar?.destroy();
 		},
 		update(newOptions: CodeJarOptions) {
-			if (newOptions.value !== jar?.toString()) {
+			if (jar && newOptions.value !== jar.toString()) {
 				const pos = jar.save();
-				jar?.updateCode(newOptions.value);
+				jar.updateCode(newOptions.value);
 				jar.restore(pos);
 			}
 			if (newOptions.editorEnabled !== options.editorEnabled) {
