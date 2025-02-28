@@ -6,6 +6,7 @@
 	import type { Snippet } from '$lib/server/router/snippet';
 	import { relativeTime } from '$lib/date';
 	import { Separator } from '$lib/components/ui/separator';
+	import DeleteSnippetBtn from './delete-snippet-btn.svelte';
 
 	interface Props {
 		children: SvelteSnippet<[]>;
@@ -32,18 +33,24 @@
 		{#if snippets.length}
 			<div class="flex-grow overflow-y-auto">
 				{#each snippets as snippet, i}
-					<div class="rounded-sm px-4 py-2" class:bg-secondary={snippet.id === currentSnippetId}>
-						<Button
-							variant="link"
-							class="block h-auto whitespace-normal break-all px-0 py-0 text-left"
-							href={'/' + snippet.id}
-							onclick={close}
-						>
-							{snippet.name}
-						</Button>
-						<i class="text-sm text-muted-foreground no-underline"
-							>{relativeTime(snippet.updatedAt)}</i
-						>
+					<div
+						class="flex flex-row justify-between rounded-sm px-4 py-2"
+						class:bg-secondary={snippet.id === currentSnippetId}
+					>
+						<div>
+							<Button
+								variant="link"
+								class="block h-auto whitespace-normal break-all px-0 py-0 text-left"
+								href={'/' + snippet.id}
+								onclick={close}
+							>
+								{snippet.name}
+							</Button>
+							<i class="text-sm text-muted-foreground no-underline"
+								>{relativeTime(snippet.updatedAt)}</i
+							>
+						</div>
+						<DeleteSnippetBtn snippetId={snippet.id} />
 					</div>
 					{#if i < snippets.length - 1}
 						<Separator class="my-2" />
