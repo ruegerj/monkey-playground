@@ -6,20 +6,16 @@
 	import type { Snippet } from '$lib/server/router/snippet';
 	import { Button, buttonVariants } from '../ui/button';
 	import { Input } from '../ui/input';
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		snippet: Snippet | undefined;
 	}
 
 	const { snippet }: Props = $props();
-	let shareLink = $state('');
+	let shareLink = $derived(!browser ? '' : window.location.origin + '/' + snippet?.id);
 	let showCopyInfo = $state(false);
-
-	onMount(() => {
-		shareLink = window.location.origin + '/' + snippet?.id;
-	});
 
 	async function copyLinkToClipboard() {
 		showCopyInfo = false;
