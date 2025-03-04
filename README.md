@@ -11,6 +11,7 @@ Web-Sandbox for writing, compiling and executing [Monkey](https://monkeylang.org
 - [Code Samples](/docs/samples/)
 - [Documentation](/docs/documentation.md)
 - [Requirements & Specification](/docs/requirements.md)
+- [Screenshots](/docs/screenshots/screenshots.md)
 - [Work Journal](/docs/work-journal.md)
 
 ## Development Environment
