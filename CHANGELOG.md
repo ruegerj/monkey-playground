@@ -1,3 +1,16 @@
+# 1.0.0
+
+**Features:**
+
+- Share Code Snippets ([#5](https://github.com/ruegerj/monkey-playground/issues/5))
+
+  - adds dialog for copying a unique share link of a snippet
+  - rebuilds the outdate [codejar](https://github.com/antonmedv/codejar) wrapper previously used in order to mitigate outdated dependencies and extend the available functionalities
+
+- Delete Code Snippets ([#8](https://github.com/ruegerj/monkey-playground/issues/13))
+
+  - adds snippet deletion with additional confirmation beforehand
+
 # 0.6.0
 
 **Features:**

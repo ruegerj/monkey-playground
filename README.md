@@ -59,7 +59,7 @@ Instead of building a new image from source, you can simply just use the one fro
 docker pull ghcr.io/ruegerj/monkey-playground:latest
 ```
 
-To run the generated image, use the command below while inserting the corresponding values of the env vars:
+To run the latest image of the app, use the command below while inserting the corresponding values of the env vars:
 
 ```bash
 docker run -dit \
