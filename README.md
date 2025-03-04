@@ -7,9 +7,10 @@ Web-Sandbox for writing, compiling and executing [Monkey](https://monkeylang.org
 
 ## Contents
 
+- [Changelog](/CHANGELOG.md)
+- [Documentation](/docs/documentation.md)
 - [Requirements & Specification](/docs/requirements.md)
 - [Work Journal](/docs/work-journal.md)
-- [Changelog](/CHANGELOG.md)
 
 ## Development Environment
 
@@ -50,6 +51,12 @@ The project is setup, in order to be runnable as a standalone docker container w
 docker build -t ruegerj/monkey-playground:snapshot --platform linux/amd64  .
 ```
 
+Instead of building a new image from source, you can simply just use the one from the latest release: [monkey-playground:latest](https://github.com/ruegerj/monkey-playground/pkgs/container/monkey-playground):
+
+```bash
+docker pull ghcr.io/ruegerj/monkey-playground:latest
+```
+
 To run the generated image, use the command below while inserting the corresponding values of the env vars:
 
 ```bash
@@ -59,5 +66,5 @@ docker run -dit \
     -e GITHUB_CLIENT_SECRET=<client-secret> \
     -p 5173:5173 \
     -v <host-path>:/db \
-    ruegerj/monkey-playground:snapshot
+    ghcr.io/ruegerj/monkey-playground:latest
 ```
