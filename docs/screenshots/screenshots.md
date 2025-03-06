@@ -25,3 +25,7 @@ Here are some visual impressions of the current monkey playground app and its fe
 ## Shared Snippet View for anonymous user
 
 ![Shared Snippet View for anonymous user screenshot](./shared-snippet-anon-user.png)
+
+## Error page
+
+![Error page screenshot](./error-page.png)
